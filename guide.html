@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Attendrollix — User Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#1a1209;--ink2:#4a3f2f;--ink3:#8c7d68;
+  --paper:#faf7f2;--paper2:#f3ede4;--paper3:#ece4d7;
+  --rule:#ddd4c2;--rule2:#cec3ae;
+  --teal:#1a7a6e;--teal-lt:#e8f5f3;--teal-mid:#c0e6e1;
+  --blue:#1a4fa8;--blue-lt:#eaf0fc;
+  --amber:#b45309;--amber-lt:#fef3e2;
+  --red:#be2b2b;--red-lt:#fdeaea;
+  --grape:#6b21a8;--grape-lt:#f5eeff;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--teal-mid);color:var(--teal)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--paper2)}
+::-webkit-scrollbar-thumb{background:var(--rule2);border-radius:99px}
+
+/* NAV */
+.topnav{position:sticky;top:0;z-index:200;background:rgba(250,247,242,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
+.nav-brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.5px}
+.nav-logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--blue));display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.nav-pill{font-size:10px;font-weight:600;font-family:'DM Mono',monospace;background:var(--teal-lt);color:var(--teal);border:1px solid var(--teal-mid);border-radius:99px;padding:2px 9px;letter-spacing:.5px;text-transform:uppercase}
+.nav-center{display:flex;align-items:center;gap:2px}
+.nav-link{font-size:13px;font-weight:500;color:var(--ink3);text-decoration:none;padding:5px 12px;border-radius:6px;transition:all .15s}
+.nav-link:hover{background:var(--paper2);color:var(--ink)}
+.nav-cta{font-size:13px;font-weight:600;background:var(--ink);color:var(--paper);text-decoration:none;padding:7px 18px;border-radius:8px;transition:opacity .15s;white-space:nowrap}
+.nav-cta:hover{opacity:.82}
+
+/* LAYOUT */
+.layout{display:flex;max-width:1160px;margin:0 auto}
+
+/* SIDEBAR */
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;padding:32px 16px 32px 0;border-right:1px solid var(--rule)}
+.toc-group-label{font-size:10px;font-weight:700;font-family:'DM Mono',monospace;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;padding:0 12px;margin-top:20px;margin-bottom:6px}
+.toc-group-label:first-child{margin-top:0}
+.toc-link{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;font-size:13px;font-weight:400;color:var(--ink3);text-decoration:none;transition:all .15s;margin-bottom:1px}
+.toc-link:hover{background:var(--paper2);color:var(--ink)}
+.toc-link.active{background:var(--teal-lt);color:var(--teal);font-weight:600}
+.toc-dot{width:6px;height:6px;border-radius:50%;background:var(--rule2);flex-shrink:0;transition:background .15s}
+.toc-link.active .toc-dot{background:var(--teal)}
+.toc-sep{height:1px;background:var(--rule);margin:12px 12px}
+
+/* MAIN */
+.main{flex:1;min-width:0;padding:0 56px 80px 56px}
+
+/* HERO */
+.hero{padding:56px 0 48px;border-bottom:1px solid var(--rule);margin-bottom:56px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.hero-eyebrow-bar{width:24px;height:2px;background:var(--teal);border-radius:2px}
+.hero-title{font-family:'Fraunces',serif;font-size:52px;font-weight:900;line-height:1.05;letter-spacing:-2px;color:var(--ink);margin-bottom:20px}
+.hero-title em{font-style:italic;color:var(--teal)}
+.hero-sub{font-size:17px;color:var(--ink2);line-height:1.7;max-width:560px;margin-bottom:32px;font-weight:300}
+.hero-chips{display:flex;gap:10px;flex-wrap:wrap}
+.hero-chip{display:flex;align-items:center;gap:6px;background:var(--paper2);border:1px solid var(--rule);border-radius:99px;padding:6px 14px;font-size:12px;font-weight:500;color:var(--ink2)}
+
+/* SECTION */
+.section{margin-bottom:64px;scroll-margin-top:72px}
+.section-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.section-tag{font-size:10px;font-weight:700;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:99px}
+.tag-teal{background:var(--teal-lt);color:var(--teal)}
+.tag-blue{background:var(--blue-lt);color:var(--blue)}
+.tag-amber{background:var(--amber-lt);color:var(--amber)}
+.tag-grape{background:var(--grape-lt);color:var(--grape)}
+.tag-red{background:var(--red-lt);color:var(--red)}
+.section-num{font-family:'DM Mono',monospace;font-size:12px;color:var(--ink3)}
+.section-title{font-family:'Fraunces',serif;font-size:32px;font-weight:700;letter-spacing:-.8px;color:var(--ink);margin-bottom:8px;line-height:1.2}
+.section-lead{font-size:15px;color:var(--ink2);line-height:1.75;font-weight:300;max-width:640px;margin-bottom:28px}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:0;position:relative}
+.step-left{display:flex;flex-direction:column;align-items:center;padding-right:24px;flex-shrink:0}
+.step-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:13px;font-weight:600;border:2px solid var(--rule2);background:var(--paper);color:var(--ink2);flex-shrink:0;z-index:1;transition:all .2s}
+.step:hover .step-circle{border-color:var(--teal);background:var(--teal-lt);color:var(--teal)}
+.step-line{width:2px;flex:1;min-height:24px;background:var(--rule);margin:4px 0}
+.step:last-child .step-line{display:none}
+.step-right{flex:1;padding-bottom:32px;padding-top:8px}
+.step-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.2px}
+.step-desc{font-size:14px;color:var(--ink2);line-height:1.75}
+
+/* CARDS */
+.panel{background:var(--paper2);border:1px solid var(--rule);border-radius:14px;padding:20px 22px;margin:14px 0}
+.panel-title{font-size:12px;font-weight:700;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;color:var(--ink3);margin-bottom:12px}
+
+.callout{display:flex;gap:12px;align-items:flex-start;border-radius:10px;padding:14px 16px;margin:16px 0;font-size:14px;line-height:1.65}
+.callout-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.callout.teal{background:var(--teal-lt);border:1px solid var(--teal-mid);color:var(--teal)}
+.callout.amber{background:var(--amber-lt);border:1px solid #fcd9a0;color:var(--amber)}
+.callout.blue{background:var(--blue-lt);border:1px solid #c0d0f5;color:var(--blue)}
+.callout.grape{background:var(--grape-lt);border:1px solid #ddc4f8;color:var(--grape)}
+.callout strong{font-weight:700}
+
+/* TABLE */
+.doc-table-wrap{border:1px solid var(--rule);border-radius:10px;overflow:hidden;margin:16px 0}
+.doc-table{width:100%;border-collapse:collapse;font-size:13px}
+.doc-table thead th{background:var(--paper2);padding:10px 16px;text-align:left;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.8px;color:var(--ink3);border-bottom:1px solid var(--rule)}
+.doc-table tbody td{padding:11px 16px;border-bottom:1px solid var(--rule);color:var(--ink2);vertical-align:top}
+.doc-table tbody tr:last-child td{border-bottom:none}
+.doc-table tbody tr:hover td{background:var(--paper2)}
+.req-badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;font-family:'DM Mono',monospace}
+.req-yes{background:var(--teal-lt);color:var(--teal)}
+.req-no{background:var(--paper3);color:var(--ink3)}
+
+/* MONO */
+.mono-box{background:var(--ink);color:#a8e6cf;font-family:'DM Mono',monospace;font-size:14px;padding:14px 18px;border-radius:10px;margin:12px 0;letter-spacing:.5px;overflow-x:auto}
+code{font-family:'DM Mono',monospace;font-size:12px;background:var(--paper3);color:var(--teal);padding:2px 6px;border-radius:4px}
+kbd{font-family:'DM Mono',monospace;font-size:11px;background:var(--paper2);border:1px solid var(--rule2);border-bottom-width:2px;color:var(--ink2);padding:2px 7px;border-radius:5px}
+
+/* FEAT GRID */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin:16px 0}
+.feat-card{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px;transition:box-shadow .2s,border-color .2s}
+.feat-card:hover{border-color:var(--rule2);box-shadow:0 4px 16px rgba(26,18,9,.1)}
+.feat-icon{font-size:24px;margin-bottom:10px}
+.feat-name{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.feat-desc{font-size:12px;color:var(--ink3);line-height:1.6}
+
+/* METHOD GRID */
+.method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.method-card{border:1.5px solid var(--rule);border-radius:12px;padding:20px 16px;text-align:center;transition:all .2s}
+.method-card:hover{border-color:var(--teal-mid);box-shadow:0 0 0 3px var(--teal-lt)}
+.method-card-icon{font-size:28px;margin-bottom:10px}
+.method-card-name{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.method-card-desc{font-size:12px;color:var(--ink3);line-height:1.6}
+
+/* BADGES */
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.att-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;border:1.5px solid}
+.att-present{background:#f0fdf8;color:#0d7a53;border-color:#86efca}
+.att-late{background:#fffbeb;color:#b45309;border-color:#fcd34d}
+.att-absent{background:#fff1f1;color:#be2b2b;border-color:#fca5a5}
+
+/* DEMO BOX */
+.demo-box{background:var(--ink);border-radius:12px;padding:18px 22px;margin:16px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.demo-label{font-family:'DM Mono',monospace;font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.demo-val{font-family:'DM Mono',monospace;font-size:16px;font-weight:600;color:#a8e6cf;letter-spacing:1px}
+.demo-divider{width:1px;height:40px;background:#2d3748;flex-shrink:0}
+
+/* FAQ */
+.faq{border:1px solid var(--rule);border-radius:12px;overflow:hidden;margin:16px 0}
+.faq-item{border-bottom:1px solid var(--rule)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer;font-size:14px;font-weight:600;color:var(--ink);transition:background .15s;gap:12px}
+.faq-q:hover{background:var(--paper2)}
+.faq-toggle{width:22px;height:22px;border-radius:50%;background:var(--paper3);color:var(--ink3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .25s}
+.faq-item.open .faq-toggle{background:var(--teal-lt);color:var(--teal);transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:13px;color:var(--ink2);line-height:1.75;padding:0 20px}
+.faq-item.open .faq-a{max-height:300px;padding:0 20px 18px}
+
+/* STATUS DOTS */
+.status-row{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0}
+.status-item{display:flex;align-items:center;gap:6px;font-size:13px}
+.status-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* DIVIDER */
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--rule),transparent);margin:56px 0}
+
+/* TIPS */
+.tip-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}
+.tip-item{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:14px}
+.tip-emoji{font-size:20px;flex-shrink:0;margin-top:1px}
+.tip-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.tip-text{font-size:12px;color:var(--ink3);line-height:1.6}
+
+/* CTA */
+.cta-block{text-align:center;padding:56px 0 16px}
+.cta-icon{font-size:40px;margin-bottom:16px}
+.cta-title{font-family:'Fraunces',serif;font-size:30px;font-weight:800;letter-spacing:-.8px;margin-bottom:8px}
+.cta-sub{font-size:15px;color:var(--ink2);margin-bottom:28px;font-weight:300}
+.cta-btn{display:inline-block;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:700;font-size:15px;padding:13px 32px;border-radius:10px;transition:opacity .15s}
+.cta-btn:hover{opacity:.82}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--rule);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--ink3)}
+.footer a{color:var(--ink3);text-decoration:none;transition:color .15s}
+.footer a:hover{color:var(--teal)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  .sidebar{display:none}
+  .main{padding:0 24px 60px}
+  .topnav{padding:0 20px}
+  .nav-center{display:none}
+  .hero-title{font-size:36px}
+  .method-grid{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .hero-title{font-size:28px}
+  .section-title{font-size:24px}
+  .demo-box{flex-direction:column;gap:10px}
+  .demo-divider{width:100%;height:1px}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">🎓</div>
+    Attendrollix
+    <span class="nav-pill">Guide</span>
+  </a>
+  <div class="nav-center">
+    <a href="#section-register"   class="nav-link">Register</a>
+    <a href="#section-login"      class="nav-link">Login</a>
+    <a href="#section-dashboard"  class="nav-link">Dashboard</a>
+    <a href="#section-attendance" class="nav-link">Attendance</a>
+    <a href="#section-faq"        class="nav-link">FAQ</a>
+  </div>
+  <a href="index.html" class="nav-cta">Open App →</a>
+</nav>
+
+<div class="layout">
+
+  <!-- SIDEBAR TOC -->
+  <aside class="sidebar">
+    <div class="toc-group-label">Introduction</div>
+    <a href="#hero" class="toc-link active"><span class="toc-dot"></span>Overview</a>
+    <div class="toc-sep"></div>
+
+    <div class="toc-group-label">Setup</div>
+    <a href="#section-register" class="toc-link"><span class="toc-dot"></span>1 · Register College</a>
+    <a href="#section-login"    class="toc-link"><span class="toc-dot"></span>2 · Log In</a>
+    <div class="toc-sep"></div>
+
+    <div class="toc-group-label">App Usage</div>
+    <a href="#section-dashboard"  class="toc-link"><span class="toc-dot"></span>3 · Dashboard</a>
+    <a href="#section-courses"    class="toc-link"><span class="toc-dot"></span>4 · Courses</a>
+    <a href="#section-students"   class="toc-link"><span class="toc-dot"></span>5 · Students</a>
+    <a href="#section-attendance" class="toc-link"><span class="toc-dot"></span>6 · Attendance</a>
+    <a href="#section-reports"    class="toc-link"><span class="toc-dot"></span>7 · Reports</a>
+    <a href="#section-profile"    class="toc-link"><span class="toc-dot"></span>8 · Profile</a>
+    <div class="toc-sep"></div>
+
+    <div class="toc-group-label">Help</div>
+    <a href="#section-faq"  class="toc-link"><span class="toc-dot"></span>FAQ</a>
+    <a href="#section-tips" class="toc-link"><span class="toc-dot"></span>Pro Tips</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HERO -->
+    <div class="hero reveal" id="hero">
+      <div class="hero-eyebrow"><div class="hero-eyebrow-bar"></div>Complete User Guide</div>
+      <h1 class="hero-title">Attendrollix<br><em>How to Use</em></h1>
+      <p class="hero-sub">
+        A step-by-step guide — from registering your college all the way to marking
+        daily attendance, viewing reports, and managing students. Everything in one place.
+      </p>
+      <div class="hero-chips">
+        <div class="hero-chip">⏱ 5-minute read</div>
+        <div class="hero-chip">📖 8 sections</div>
+        <div class="hero-chip">📱 Mobile friendly</div>
+        <div class="hero-chip">🔒 PHP + MySQL backend</div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 1 — REGISTER ══ -->
+    <section class="section reveal" id="section-register">
+      <div class="section-meta">
+        <span class="section-tag tag-teal">Step 1</span>
+        <span class="section-num">01 / 08</span>
+      </div>
+      <h2 class="section-title">Register Your College</h2>
+      <p class="section-lead">
+        Before using Attendrollix, you need to register your institution once.
+        Your <strong>email address</strong> becomes your permanent login ID — no separate College ID is needed.
+      </p>
+
+      <div class="callout teal">
+        <span class="callout-icon">💡</span>
+        <div><strong>Your email IS your login ID.</strong> Choose an email you will always have access to — you will need it every time you sign in.</div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-circle">01</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Click "New? Register →" on the login screen</div>
+            <div class="step-desc">The registration form will open. All fields marked with * are required.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">02</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Fill in your college details</div>
+            <div class="step-desc">Complete the registration form:</div>
+            <div class="doc-table-wrap" style="margin-top:12px">
+              <table class="doc-table">
+                <thead><tr><th>Field</th><th>Example</th><th>Required?</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>College Name</strong></td><td>TMV College, Pune</td><td><span class="req-badge req-yes">✓ Yes</span></td></tr>
+                  <tr><td><strong>Location</strong></td><td>Pune, Maharashtra</td><td><span class="req-badge req-no">Optional</span></td></tr>
+                  <tr><td><strong>Board / University</strong></td><td>Savitribai Phule Pune University</td><td><span class="req-badge req-no">Optional</span></td></tr>
+                  <tr><td><strong>Email Address</strong></td><td>admin@college.com</td><td><span class="req-badge req-yes">✓ Yes (login ID)</span></td></tr>
+                  <tr><td><strong>Phone</strong></td><td>020-12345678</td><td><span class="req-badge req-no">Optional</span></td></tr>
+                  <tr><td><strong>Password</strong></td><td>Minimum 6 characters</td><td><span class="req-badge req-yes">✓ Yes</span></td></tr>
+                  <tr><td><strong>Confirm Password</strong></td><td>Same password again</td><td><span class="req-badge req-yes">✓ Yes</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">03</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Click "Create Account"</div>
+            <div class="step-desc">
+              Your college will be registered instantly. A success screen will confirm your registered email address.
+            </div>
+            <div class="callout amber" style="margin-top:12px">
+              <span class="callout-icon">⚠️</span>
+              <div><strong>Keep your email and password safe.</strong> You will need them every time you log in. There is no automatic password recovery in the current version.</div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">04</div></div>
+          <div class="step-right">
+            <div class="step-title">Proceed to Login</div>
+            <div class="step-desc">Click <kbd>Go to Login →</kbd> and sign in with your email and password.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 2 — LOGIN ══ -->
+    <section class="section reveal" id="section-login">
+      <div class="section-meta">
+        <span class="section-tag tag-blue">Step 2</span>
+        <span class="section-num">02 / 08</span>
+      </div>
+      <h2 class="section-title">Logging In</h2>
+      <p class="section-lead">
+        Sign in using the email address and password you set during registration.
+        Your PHP session will keep you logged in until you close the browser or click Log Out.
+      </p>
+
+      <div class="callout blue">
+        <span class="callout-icon">🧪</span>
+        <div><strong>Want to try the demo first?</strong> Use the credentials below — no registration needed.</div>
+      </div>
+
+      <div class="demo-box">
+        <div><div class="demo-label">Email</div><div class="demo-val">admin@tmv.edu</div></div>
+        <div class="demo-divider"></div>
+        <div><div class="demo-label">Password</div><div class="demo-val">tmv@123</div></div>
+      </div>
+
+      <div class="steps" style="margin-top:24px">
+        <div class="step">
+          <div class="step-left"><div class="step-circle">01</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Enter your email address</div>
+            <div class="step-desc">Type the email you used when registering your college.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">02</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Enter your password and click Sign In</div>
+            <div class="step-desc">Press <kbd>Enter</kbd> or click the <strong>Sign In</strong> button. On success, the Dashboard loads automatically.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">?</div></div>
+          <div class="step-right">
+            <div class="step-title">Forgot your password?</div>
+            <div class="step-desc">Click <kbd>Forgot Password?</kbd> on the login screen. In the current version, contact your system administrator or create a new account with a different email.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 3 — DASHBOARD ══ -->
+    <section class="section reveal" id="section-dashboard">
+      <div class="section-meta">
+        <span class="section-tag tag-teal">Step 3</span>
+        <span class="section-num">03 / 08</span>
+      </div>
+      <h2 class="section-title">Dashboard</h2>
+      <p class="section-lead">
+        The Dashboard is the first screen you see after logging in. It gives a real-time snapshot of today's attendance across your entire college.
+      </p>
+
+      <div class="feat-grid">
+        <div class="feat-card"><div class="feat-icon">👨‍🎓</div><div class="feat-name">Total Students</div><div class="feat-desc">Total number of registered students. Click to see the full list.</div></div>
+        <div class="feat-card"><div class="feat-icon">✅</div><div class="feat-name">Present Today</div><div class="feat-desc">Students marked present today and the attendance percentage. Click to see names and times.</div></div>
+        <div class="feat-card"><div class="feat-icon">❌</div><div class="feat-name">Absent Today</div><div class="feat-desc">Students who are absent. Click to see the full list.</div></div>
+        <div class="feat-card"><div class="feat-icon">⏰</div><div class="feat-name">Late Today</div><div class="feat-desc">Students who arrived late and their entry times.</div></div>
+      </div>
+
+      <div class="callout teal">
+        <span class="callout-icon">✨</span>
+        <div><strong>Every stat card is clickable.</strong> Click any card to open a popup listing all students in that category — complete with roll number, course, and time.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Today's Activity &amp; Course Overview</div>
+        <p style="font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:10px">
+          The right panel shows recent attendance activity. Use the <strong>Course dropdown</strong> at the top of the panel to filter the list to a single course.
+        </p>
+        <p style="font-size:14px;color:var(--ink2);line-height:1.7">
+          The left panel shows a Course Overview with a student count and progress bar for each course. Click any course row to go directly to that course's student list.
+        </p>
+      </div>
+
+      <div class="callout grape">
+        <span class="callout-icon">🌙</span>
+        <div><strong>Light / Dark mode:</strong> Click the 🌙 / ☀️ icon in the top-right corner to switch themes. This button is also available on the login screen.</div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 4 — COURSES ══ -->
+    <section class="section reveal" id="section-courses">
+      <div class="section-meta">
+        <span class="section-tag tag-amber">Step 4</span>
+        <span class="section-num">04 / 08</span>
+      </div>
+      <h2 class="section-title">Managing Courses</h2>
+      <p class="section-lead">
+        Click <strong>Courses</strong> in the sidebar. Each course appears as a card. Hover over a card to reveal Edit and Delete buttons.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-circle">➕</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Add a New Course</div>
+            <div class="step-desc">Click <kbd>+ Add Course</kbd> in the top-right corner. Enter a <strong>Course Name</strong> (e.g. B.Tech), a <strong>Course ID</strong> (a short lowercase code, e.g. <code>btech</code>), and choose a colour. Click <strong>Add Course</strong>.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">✏️</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Edit a Course</div>
+            <div class="step-desc">Hover over a course card to reveal the <strong>Edit</strong> button. You can update the name and colour — the Course ID cannot be changed after creation.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">🗑</div></div>
+          <div class="step-right">
+            <div class="step-title">Delete a Course</div>
+            <div class="step-desc">Hover and click <strong>Delete</strong>. Deleting a course only removes the course record. <strong>Students are not deleted</strong> — their data remains intact.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 5 — STUDENTS ══ -->
+    <section class="section reveal" id="section-students">
+      <div class="section-meta">
+        <span class="section-tag tag-grape">Step 5</span>
+        <span class="section-num">05 / 08</span>
+      </div>
+      <h2 class="section-title">Managing Students</h2>
+      <p class="section-lead">
+        On the Courses page, click any course card to open its student list. From here you can add, view, edit, and delete students.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-circle">01</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Open a course and click "+ Add Student"</div>
+            <div class="step-desc">The button is in the top-right corner of the course student list page.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">02</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Fill in the student details</div>
+            <div class="doc-table-wrap" style="margin-top:12px">
+              <table class="doc-table">
+                <thead><tr><th>Field</th><th>Example</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Full Name</strong> ✓</td><td>Rahul Sharma</td></tr>
+                  <tr><td><strong>Roll Number</strong> ✓</td><td>BSC001</td></tr>
+                  <tr><td><strong>Course</strong></td><td>Auto-selected (can be changed)</td></tr>
+                  <tr><td><strong>Phone Number</strong></td><td>9876543210</td></tr>
+                  <tr><td><strong>Email Address</strong></td><td>rahul@email.com</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout teal" style="margin-top:12px">
+              <span class="callout-icon">🔐</span>
+              <div><strong>QR code is generated automatically</strong> when you add a student. You do not need to create one manually.</div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">03</div></div>
+          <div class="step-right">
+            <div class="step-title">Row actions for each student</div>
+            <div class="panel" style="margin-top:12px">
+              <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+                <div style="display:flex;gap:10px;align-items:flex-start">
+                  <div style="font-size:16px">👁</div>
+                  <div><strong>View</strong> — See full student details plus the generated QR code image and QR ID.</div>
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start">
+                  <div style="font-size:16px">✏️</div>
+                  <div><strong style="color:var(--blue)">Edit</strong> — Update name, phone, email, or course.</div>
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start">
+                  <div style="font-size:16px">🗑</div>
+                  <div><strong style="color:var(--red)">Delete</strong> — Permanently remove the student. A confirmation prompt will appear first.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 6 — ATTENDANCE ══ -->
+    <section class="section reveal" id="section-attendance">
+      <div class="section-meta">
+        <span class="section-tag tag-teal">Step 6</span>
+        <span class="section-num">06 / 08</span>
+      </div>
+      <h2 class="section-title">Marking Attendance</h2>
+      <p class="section-lead">
+        Click <strong>Mark Attendance</strong> in the sidebar. Today's date is displayed automatically. Choose between Manual mode and QR Scan mode.
+      </p>
+
+      <!-- Manual -->
+      <div style="margin-bottom:32px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <span class="section-tag tag-teal" style="font-size:11px">Method 1</span>
+          <strong style="font-size:17px;letter-spacing:-.3px">Manual Attendance</strong>
+        </div>
+        <p style="font-size:14px;color:var(--ink2);line-height:1.75;margin-bottom:14px">
+          Select <strong>Manual</strong> mode. Three buttons appear next to each student. Click the appropriate button to mark their status:
+        </p>
+        <div class="badge-row">
+          <span class="att-badge att-present">✓ Present</span>
+          <span class="att-badge att-late">⏰ Late</span>
+          <span class="att-badge att-absent">✕ Absent</span>
+        </div>
+        <p style="font-size:13px;color:var(--ink3);margin-top:12px;line-height:1.7">
+          A coloured badge appears once a student is marked. Made a mistake? Click <strong>Reset</strong> to remove the record and mark again.
+        </p>
+        <div class="callout amber" style="margin-top:12px">
+          <span class="callout-icon">🔍</span>
+          <div><strong>Course Filter:</strong> Use the course filter tabs below the mode selector to display only students from one course. Click <strong>All</strong> to show everyone.</div>
+        </div>
+      </div>
+
+      <!-- QR -->
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <span class="section-tag tag-grape" style="font-size:11px">Method 2</span>
+          <strong style="font-size:17px;letter-spacing:-.3px">QR Code Attendance</strong>
+        </div>
+        <p style="font-size:14px;color:var(--ink2);line-height:1.75;margin-bottom:16px">
+          Select <strong>QR Scan</strong> mode. A panel opens with three tabs:
+        </p>
+        <div class="method-grid">
+          <div class="method-card">
+            <div class="method-card-icon">⌨️</div>
+            <div class="method-card-name">Enter QR ID</div>
+            <div class="method-card-desc">Type or paste the student's QR code and press <kbd>Enter</kbd>. The student is instantly marked Present.</div>
+          </div>
+          <div class="method-card">
+            <div class="method-card-icon">📷</div>
+            <div class="method-card-name">Scan Camera</div>
+            <div class="method-card-desc">Click "Start Camera". The browser will request camera permission. Point the camera at the student's QR code to auto-scan.</div>
+          </div>
+          <div class="method-card">
+            <div class="method-card-icon">📤</div>
+            <div class="method-card-name">Upload Image</div>
+            <div class="method-card-desc">Select a QR code image file from your device. The system will attempt to decode it automatically.</div>
+          </div>
+        </div>
+        <div class="callout blue" style="margin-top:4px">
+          <span class="callout-icon">🛡️</span>
+          <div><strong>Duplicate Protection:</strong> If a student's QR is scanned more than once on the same day, the system blocks the duplicate and shows a warning message.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 7 — REPORTS ══ -->
+    <section class="section reveal" id="section-reports">
+      <div class="section-meta">
+        <span class="section-tag tag-amber">Step 7</span>
+        <span class="section-num">07 / 08</span>
+      </div>
+      <h2 class="section-title">Attendance Reports</h2>
+      <p class="section-lead">
+        Click <strong>Reports</strong> in the sidebar. Three report ranges are available, all pulling live data from the database.
+      </p>
+
+      <div class="feat-grid">
+        <div class="feat-card"><div class="feat-icon">📅</div><div class="feat-name">Date Wise</div><div class="feat-desc">Pick any date from the calendar to see every student's status and entry time for that day.</div></div>
+        <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-name">6 Months</div><div class="feat-desc">Attendance percentage for every student over the last 6 months, shown as a colour-coded progress bar.</div></div>
+        <div class="feat-card"><div class="feat-icon">📈</div><div class="feat-name">1 Year</div><div class="feat-desc">Full-year trend. Students below 75% are automatically flagged with a warning.</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Attendance Percentage Colour Coding</div>
+        <div class="status-row">
+          <div class="status-item"><div class="status-dot" style="background:#0d7a53"></div><span style="font-size:13px;color:var(--ink2)"><strong>75% and above</strong> — Satisfactory / Excellent (green)</span></div>
+          <div class="status-item"><div class="status-dot" style="background:#b45309"></div><span style="font-size:13px;color:var(--ink2)"><strong>50–74%</strong> — Borderline (amber)</span></div>
+          <div class="status-item"><div class="status-dot" style="background:#be2b2b"></div><span style="font-size:13px;color:var(--ink2)"><strong>Below 50%</strong> — At Risk ⚠️ (red)</span></div>
+        </div>
+        <p style="font-size:13px;color:var(--ink3);margin-top:10px;line-height:1.65">
+          Most Indian universities (including Pune University) require a minimum of <strong>75% attendance</strong> to be eligible for examinations. Attendrollix flags any student below this threshold automatically.
+        </p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 8 — PROFILE ══ -->
+    <section class="section reveal" id="section-profile">
+      <div class="section-meta">
+        <span class="section-tag tag-blue">Step 8</span>
+        <span class="section-num">08 / 08</span>
+      </div>
+      <h2 class="section-title">College Profile</h2>
+      <p class="section-lead">
+        Click <strong>College Profile</strong> in the sidebar to view and update your institution's information.
+      </p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-circle">01</div><div class="step-line"></div></div>
+          <div class="step-right">
+            <div class="step-title">Click "✏ Edit Profile"</div>
+            <div class="step-desc">A modal opens where you can update the College Name, Location, Board/University, and Phone number.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-circle">02</div></div>
+          <div class="step-right">
+            <div class="step-title">Save your changes</div>
+            <div class="step-desc">Click <strong>Save Changes</strong>. The college name in the top bar updates immediately. The Enrolled Courses panel below shows all your courses — click <kbd>Manage →</kbd> to go to the Courses page.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══ FAQ ══ -->
+    <section class="section reveal" id="section-faq">
+      <div class="section-meta"><span class="section-tag tag-teal">Help</span></div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-lead">Common questions and their answers.</p>
+
+      <div class="faq">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            I forgot my password. What do I do?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">
+            The current version does not have an automated password reset flow. Contact your system administrator, or register a new account using a different email address. Make sure to keep your credentials stored safely in a password manager.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Does deleting a course delete the students in it?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">
+            No. Deleting a course only removes the course record. All student records and their attendance history are kept in the database and are unaffected.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            I marked the wrong attendance status. How do I fix it?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">
+            On the Mark Attendance page, click the <strong>Reset</strong> button next to the student. This removes today's record. You can then mark the correct status. Resetting only affects today — historical records are not changed.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Where can I find a student's QR code?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">
+            Open the course the student is enrolled in, then click the <strong>👁 View</strong> button next to their name. The popup shows the QR code image (requires an internet connection to load from qrserver.com) and the QR code text ID below it. Students can scan this from their identity card.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            The camera scan is not working. What should I do?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">
+            First, make sure you have granted camera permission to the browser (click the lock icon in the address bar → Camera → Allow). If the camera still does not work, use the "Enter QR ID" tab instead — type or paste the student's QR code directly. You can also use the Upload Image tab to scan a saved QR image.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Does the app work on mobile?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">
+            Yes. Attendrollix is fully responsive. On mobile the sidebar opens via the ☰ hamburger menu. Camera QR scanning also works in mobile browsers — grant camera permission when prompted.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Is data saved permanently?
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">
+            Yes. All data — colleges, courses, students, and attendance records — is stored permanently in a MySQL database on your local server (XAMPP or Laragon). Data persists across sessions and browser restarts as long as the database is running.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══ PRO TIPS ══ -->
+    <section class="section reveal" id="section-tips">
+      <div class="section-meta"><span class="section-tag tag-amber">Pro Tips</span></div>
+      <h2 class="section-title">Best Practices</h2>
+      <p class="section-lead">Tips to make your daily workflow faster and more efficient.</p>
+
+      <div class="tip-strip">
+        <div class="tip-item"><div class="tip-emoji">⚡</div><div><div class="tip-title">Mark attendance right away</div><div class="tip-text">Mark attendance as soon as class begins. Use the Course Filter to focus on only one subject at a time.</div></div></div>
+        <div class="tip-item"><div class="tip-emoji">📋</div><div><div class="tip-title">Check monthly reports</div><div class="tip-text">Review the 6-Month report at the end of each month. Give early warnings to students approaching the 75% threshold.</div></div></div>
+        <div class="tip-item"><div class="tip-emoji">🔐</div><div><div class="tip-title">Store credentials safely</div><div class="tip-text">Save your email and password in a password manager. There is no self-service password reset in the current version.</div></div></div>
+        <div class="tip-item"><div class="tip-emoji">📱</div><div><div class="tip-title">Use QR mode for large classes</div><div class="tip-text">For classes of 50 or more students, QR scanning is significantly faster. Make sure students have their QR code image available.</div></div></div>
+        <div class="tip-item"><div class="tip-emoji">🎨</div><div><div class="tip-title">Assign distinct colours to courses</div><div class="tip-text">Give each course a unique colour during setup. This makes it easier to distinguish them at a glance on the Dashboard.</div></div></div>
+        <div class="tip-item"><div class="tip-emoji">🔍</div><div><div class="tip-title">Use the stat card popups</div><div class="tip-text">Click the "Absent Today" card on the Dashboard each morning to see who is missing and follow up immediately.</div></div></div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-block reveal">
+      <div class="cta-icon">🎓</div>
+      <h2 class="cta-title">Ready to get started?</h2>
+      <p class="cta-sub">Try the demo or register your college — takes less than two minutes.</p>
+      <a href="index.html" class="cta-btn">Open Attendrollix →</a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="footer">
+  <div style="display:flex;align-items:center;gap:8px">
+    <span>🎓</span>
+    <span><strong>Attendrollix</strong> — Professional Attendance System</span>
+  </div>
+  <div style="display:flex;gap:20px">
+    <a href="index.html">Open App</a>
+    <a href="#hero">↑ Back to top</a>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+const tocLinks=document.querySelectorAll('.toc-link');
+const sIds=['hero','section-register','section-login','section-dashboard',
+  'section-courses','section-students','section-attendance',
+  'section-reports','section-profile','section-faq','section-tips'];
+const tocObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tocLinks.forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
+    }
+  });
+},{rootMargin:'-15% 0px -75% 0px'});
+sIds.forEach(id=>{const el=document.getElementById(id);if(el)tocObs.observe(el);});
+</script>
+</body>
+</html>

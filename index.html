@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Attendrollix — Professional Attendance System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- Toast notification -->
+<div id="notif"></div>
+
+<!-- Mobile sidebar overlay -->
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ════════════════════════════════════
+     AUTH SCREEN
+════════════════════════════════════ -->
+<div id="auth-screen">
+  <div style="position:absolute;top:20px;right:20px;">
+    <button id="auth-theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+
+  <div class="auth-card">
+    <!-- Brand -->
+    <div class="auth-brand">
+      <div class="auth-brand-icon">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div>
+        <div class="auth-brand-name">Attendrollix</div>
+        <div class="auth-brand-sub">Professional Attendance System</div>
+      </div>
+    </div>
+
+    <div class="auth-heading" id="auth-heading">Welcome Back</div>
+    <div class="auth-sub"     id="auth-sub">Sign in to your admin panel</div>
+    <div class="auth-alert"   id="auth-alert" style="display:none"></div>
+
+    <!-- ── Login form ── -->
+    <div id="scr-login">
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" id="login-id" type="email"
+               placeholder="admin@college.com"
+               onkeydown="if(event.key==='Enter')document.getElementById('login-pw').focus()"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="login-pw" type="password"
+               placeholder="Enter your password"
+               onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <button class="btn-primary" onclick="doLogin()">Sign In</button>
+      <div class="auth-links">
+        <button class="btn-link" onclick="goScreen('forgot')">Forgot Password?</button>
+        <button class="btn-link" onclick="goScreen('register')">New? Register →</button>
+      </div>
+    </div>
+
+    <!-- ── Register form ── -->
+    <div id="scr-register" style="display:none">
+      <div class="info-box">
+        💡 Your <strong style="color:var(--accent2)">email address</strong> will be your login ID.
+      </div>
+      <div class="form-group">
+        <label class="form-label">College Name <span class="req">*</span></label>
+        <input class="form-input" id="reg-name" placeholder="e.g. TMV College"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location</label>
+        <input class="form-input" id="reg-loc" placeholder="e.g. Pune, Maharashtra"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Board / University</label>
+        <input class="form-input" id="reg-board" placeholder="e.g. SPPU"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address <span class="req">*</span></label>
+        <input class="form-input" id="reg-email" type="email" placeholder="admin@college.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" id="reg-phone" placeholder="College contact number"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password <span class="req">*</span>
+          <span style="font-weight:400;color:var(--text3)">(min. 6 characters)</span>
+        </label>
+        <input class="form-input" id="reg-pw1" type="password" placeholder="Choose a strong password"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirm Password <span class="req">*</span></label>
+        <input class="form-input" id="reg-pw2" type="password" placeholder="Repeat your password"/>
+      </div>
+      <button class="btn-primary" onclick="doRegister()">Create Account</button>
+      <div style="text-align:center;margin-top:12px">
+        <button class="btn-link" onclick="goScreen('login')">← Back to Login</button>
+      </div>
+    </div>
+
+    <!-- ── Registration success ── -->
+    <div id="scr-reg-success" style="display:none;text-align:center">
+      <div style="font-size:48px;margin-bottom:12px">🎉</div>
+      <div style="font-size:17px;font-weight:800;color:var(--green);margin-bottom:8px">
+        Registration Successful!
+      </div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.7">
+        Your college has been registered.<br>
+        Use your <strong style="color:var(--accent2)">email</strong> and
+        <strong style="color:var(--accent2)">password</strong> to log in.
+      </div>
+      <div class="success-id-box">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;letter-spacing:1.5px;text-transform:uppercase">
+          Registered Email
+        </div>
+        <div class="generated-id" id="show-gen-email" style="font-size:15px;letter-spacing:0"></div>
+      </div>
+      <button class="btn-primary" onclick="goScreen('login')" style="margin-top:16px">Go to Login →</button>
+    </div>
+
+    <!-- ── Forgot password ── -->
+    <div id="scr-forgot" style="display:none">
+      <div class="info-box">
+        📧 Enter your registered email. We will send a password reset link to your inbox.
+      </div>
+      <div class="form-group">
+        <label class="form-label">Registered Email Address</label>
+        <input class="form-input" id="forgot-email" type="email"
+               placeholder="admin@college.com"
+               onkeydown="if(event.key==='Enter')doForgot()"/>
+      </div>
+      <button class="btn-primary" id="forgot-btn" onclick="doForgot()">Send Reset Link</button>
+      <div style="text-align:center;margin-top:12px">
+        <button class="btn-link" onclick="goScreen('login')">← Back to Login</button>
+      </div>
+    </div>
+
+    <!-- ── Reset password ── -->
+    <div id="scr-reset" style="display:none">
+      <div class="info-box">
+        🔐 Enter your new password below.
+      </div>
+      <div class="form-group">
+        <label class="form-label">New Password <span class="req">*</span></label>
+        <input class="form-input" id="reset-pw1" type="password" placeholder="At least 6 characters"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirm New Password <span class="req">*</span></label>
+        <input class="form-input" id="reset-pw2" type="password"
+               placeholder="Repeat new password"
+               onkeydown="if(event.key==='Enter')doReset()"/>
+      </div>
+      <button class="btn-primary" id="reset-btn" onclick="doReset()">Set New Password</button>
+      <div style="text-align:center;margin-top:12px">
+        <button class="btn-link" onclick="goScreen('login')">← Back to Login</button>
+      </div>
+    </div>
+
+  </div><!-- /auth-card -->
+</div><!-- /auth-screen -->
+
+
+<!-- ════════════════════════════════════
+     MAIN APPLICATION
+════════════════════════════════════ -->
+<div id="app" style="display:none">
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-name">Attendrollix</div>
+        <div class="logo-sub">Admin Panel</div>
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav-section">Main</div>
+      <button class="nav-item active" data-page="dashboard" onclick="goPage('dashboard')">
+        <div class="nav-icon">📊</div>Dashboard
+      </button>
+      <button class="nav-item" data-page="courses" onclick="goPage('courses')">
+        <div class="nav-icon">📚</div>Courses
+      </button>
+      <button class="nav-item" data-page="attendance" onclick="goPage('attendance')">
+        <div class="nav-icon">✅</div>Mark Attendance
+      </button>
+
+      <div class="nav-section">Analytics</div>
+      <button class="nav-item" data-page="reports" onclick="goPage('reports')">
+        <div class="nav-icon">📈</div>Reports
+      </button>
+
+      <div class="nav-section">Settings</div>
+      <button class="nav-item" data-page="profile" onclick="goPage('profile')">
+        <div class="nav-icon">🏫</div>College Profile
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">
+        <span style="font-size:16px">🚪</span> Log Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main content area -->
+  <div id="main-wrap">
+    <header id="topbar">
+      <div class="topbar-left">
+        <button id="menu-btn" onclick="toggleSidebar()" title="Toggle menu">☰</button>
+        <div>
+          <div id="page-title">Dashboard</div>
+          <div id="page-breadcrumb"></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="college-chip">
+          <strong id="college-name-top"></strong>
+          <span   id="college-id-top" style="font-size:11px"></span>
+        </div>
+        <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
+        <div class="topbar-avatar" id="topbar-avatar">AD</div>
+      </div>
+    </header>
+
+    <div id="main-content">
+      <div style="display:flex;align-items:center;justify-content:center;height:60vh;
+                  color:var(--text3);font-size:14px">
+        Loading…
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     MODAL
+════════════════════════════════════ -->
+<div id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Dialog</div>
+      <button class="modal-close" onclick="closeModal()" title="Close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
